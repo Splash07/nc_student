@@ -1,8 +1,8 @@
 package route
 
 import (
+	"github.com/Splash07/nc_student/handler"
 	"github.com/labstack/echo/v4"
-	"github.com/letanthang/nc_student/handler"
 )
 
 func All(e *echo.Echo) {
@@ -22,4 +22,6 @@ func Staff(e *echo.Echo) {
 func Public(e *echo.Echo) {
 	g := e.Group("/api/student/v1/public")
 	g.GET("/health", handler.HealthCheck)
+	g.GET("/test", handler.TestDB)
+
 }
