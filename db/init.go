@@ -26,7 +26,7 @@ func init() {
 }
 
 func insertNunber() {
-	collection := Client.Database("testing").Collection("numbers")
+	collection := Client.Database("GolangTest").Collection("numbers")
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	res, _ := collection.InsertOne(ctx, bson.M{"name": "pi", "value": 3.14159})
 	id := res.InsertedID
