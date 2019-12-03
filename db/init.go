@@ -1,4 +1,4 @@
-package db 
+package db
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/Splash07/nc_student/config"  
+	"github.com/Splash07/nc_student/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -28,7 +28,10 @@ func init() {
 func insertNunber() {
 	collection := Client.Database("GolangTest").Collection("numbers")
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	res, _ := collection.InsertOne(ctx, bson.M{"name": "pi", "value": 3.14159})
+	res, err := collection.InsertOne(ctx, bson.M{"name": "pi", "value": 3.14159})
+	if err != nil {
+		fmt.Println("Error occured!, ", err)
+	}
 	id := res.InsertedID
 	fmt.Println(id)
 }
@@ -39,6 +42,9 @@ func connect() {
 		log.Fatalf("connect error :%v", err)
 	}
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	if err != nil {
+		log.Fatalf("connect error :%v", err)
+	}
 	err = client.Connect(ctx)
 	ctx, _ = context.WithTimeout(context.Background(), 2*time.Second)
 	err = client.Ping(ctx, readpref.Primary())
