@@ -15,17 +15,17 @@ import (
 
 var Client *mongo.Client
 
-func Test() {
+func Test() interface{} {
 	fmt.Println("connect & insert db")
+	return insertNunber()
 }
 
 func init() {
 
 	connect()
-	insertNunber()
 }
 
-func insertNunber() {
+func insertNunber() interface{} {
 	collection := Client.Database("GolangTest").Collection("numbers")
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	res, err := collection.InsertOne(ctx, bson.M{"name": "pi", "value": 3.14159})
@@ -33,7 +33,7 @@ func insertNunber() {
 		fmt.Println("Error occured!, ", err)
 	}
 	id := res.InsertedID
-	fmt.Println(id)
+	return id
 }
 
 func connect() {
