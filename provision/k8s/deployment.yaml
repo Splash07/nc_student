@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datnguyen-student
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: datnguyen-student
+  template:
+    metadata:
+      labels:
+        app: datnguyen-student
+    spec:
+      containers:
+        - name: cont
+          image: datnguyen293/nc_student
+          ports:
+            - containerPort: 9090
+              name: web
+          resources:
+            requests:
+              memory: "50Mi"
+              cpu: "50m"
+            limits:
+              memory: "75Mi"
+              cpu: "75m"
+

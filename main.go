@@ -16,5 +16,5 @@ func main() {
 	e.Use(middleware.Recover())
 	route.All(e)
 
-	log.Println(e.Start(":9090"))
+	log.Println(e.Start(":1010"))
 }
