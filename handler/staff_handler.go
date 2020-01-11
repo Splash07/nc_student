@@ -20,6 +20,18 @@ func AddStudent(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+func AddStudentAutoIncrement(c echo.Context) {
+	// var student db.Student
+	// if err := c.Bind(&student); err != nil {
+	// 	return c.JSON(http.StatusBadRequest, db.Error{Code: http.StatusBadRequest, Msg: "bad request"})
+	// }
+	db.AddStudentAutoIncrement()
+	// if err != nil {
+	// 	return c.JSON(http.StatusBadRequest, db.Error{Code: http.StatusBadRequest, Msg: "bad request"})
+	// }
+
+}
+
 func UpdateStudent(c echo.Context) error {
 
 	var student db.StudentUpdateRequest

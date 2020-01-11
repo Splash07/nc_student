@@ -25,7 +25,8 @@ func Staff(e *echo.Echo) {
 func Public(e *echo.Echo) {
 	g := e.Group("/api/student/v1/public")
 	g.GET("/health", handler.HealthCheck)
+	//g.POST("/test", handler.AddStudentAutoIncrement)
 	g.GET("/all_students", handler.GetAllStudents)
 	g.PATCH("/student_simple", handler.SearchStudentSimple)
-
+	g.PATCH("/student_custom", handler.SearchStudentCustom)
 }

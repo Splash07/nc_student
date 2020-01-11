@@ -51,3 +51,15 @@ func SearchStudentSimple(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, students)
 }
+
+func SearchStudentCustom(c echo.Context) error {
+	var req db.StudentSearchRequest
+	if err := c.Bind(&req); err != nil { // aslo acts as validation here
+		return c.JSON(http.StatusBadRequest, db.Error{Code: http.StatusBadRequest, Msg: "bad request"})
+	}
+	students, err := db.SearchStudentCustom(req)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, db.Error{Code: http.StatusBadRequest, Msg: "bad request"})
+	}
+	return c.JSON(http.StatusOK, students)
+}

@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func GetAllStudent() (*[]Student, error) {
@@ -48,6 +49,41 @@ func SearchStudentSimple(req StudentSearchRequest) (*[]Student, error) {
 	fmt.Println(filter)
 
 	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, filter)
+	if err != nil {
+		log.Printf("Find error: %v", err)
+		return nil, err
+	}
+
+	ctx, _ = context.WithTimeout(context.Background(), 5*time.Second)
+	var students []Student
+	err = cur.All(ctx, &students)
+	if err != nil {
+		log.Printf("cur all error: %v", err)
+		return nil, err
+	}
+
+	return &students, nil
+}
+
+func SearchStudentCustom(req StudentSearchRequest) (*[]Student, error) {
+
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+
+	var query bson.D
+
+	if req.FirstName != "" {
+		query = append(query, bson.E{Key: "first_name", Value: bson.D{
+			{"$regex", primitive.Regex{Pattern: req.FirstName, Options: "i"}},
+		}})
+	}
+
+	if req.LastName != "" {
+		query = append(query, bson.E{Key: "last_name", Value: bson.D{
+			{"$regex", primitive.Regex{Pattern: req.LastName, Options: "i"}},
+		}})
+	}
+
+	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, query)
 	if err != nil {
 		log.Printf("Find error: %v", err)
 		return nil, err
