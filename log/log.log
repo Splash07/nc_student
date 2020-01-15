@@ -1,0 +1,4 @@
+General:	2020/01/15 17:07:26 logger.go:38: /api/student/v1/public/student_custom PATCH 200
+General:	2020/01/15 17:07:49 logger.go:38: /api/student/v1/public/student_custom PATCH 200
+Error:	2020/01/15 17:08:13 public_handler.go:40: Error occured: code=400, message=Unmarshal type error: expected=int, got=string, field=age, offset=16, internal=json: cannot unmarshal string into Go struct field StudentSearchRequest.age of type int
+General:	2020/01/15 17:08:13 logger.go:38: /api/student/v1/public/student_custom PATCH 400

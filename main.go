@@ -15,7 +15,7 @@ func main() {
 	fmt.Printf("config app: %+v", config.Config)
 	e := echo.New()
 	e.Use(middleware.Recover())
-	e.Use(mw.SimpleLogger())
+	e.Use(mw.Logger())
 	route.All(e)
 
 	log.Println(e.Start(":1010"))

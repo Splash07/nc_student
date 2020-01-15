@@ -2,10 +2,10 @@ package db
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"github.com/Splash07/nc_student/config"
+	mw "github.com/Splash07/nc_student/middleware"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -31,12 +31,12 @@ func connect() {
 
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
-		log.Fatalf("connect error :%v", err)
+		mw.ErrorLogger.Fatalf("connect error :%v", err)
 	}
 
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
-		log.Fatalf("ping error :%v", err)
+		mw.ErrorLogger.Fatalf("ping error :%v", err)
 	}
 	Client = client
 }

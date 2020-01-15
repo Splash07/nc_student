@@ -3,8 +3,7 @@ package db
 import (
 	"context"
 	"encoding/json"
-	"fmt"
-	"log"
+	mw "github.com/Splash07/nc_student/middleware"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,7 +15,7 @@ func GetAllStudent() (*[]Student, error) {
 	filter := bson.M{} //map[string]interface{}
 	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, filter)
 	if err != nil {
-		log.Printf("Find error: %v", err)
+		mw.ErrorLogger.Printf("Find error: %v", err)
 		return nil, err
 	}
 
@@ -24,7 +23,7 @@ func GetAllStudent() (*[]Student, error) {
 	var students []Student
 	err = cur.All(ctx, &students)
 	if err != nil {
-		log.Printf("cur all error: %v", err)
+		mw.ErrorLogger.Printf("cur all error: %v", err)
 		return nil, err
 	}
 
@@ -32,25 +31,22 @@ func GetAllStudent() (*[]Student, error) {
 }
 
 func SearchStudentSimple(req StudentSearchRequest) (*[]Student, error) {
-
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 
 	var filter bson.M
 	bs, err := json.Marshal(req)
 	if err != nil {
-		log.Printf("Marshal error: %v", err)
+		mw.ErrorLogger.Printf("Marshal error: %v", err)
 	}
 
 	err = json.Unmarshal(bs, &filter)
 	if err != nil {
-		log.Printf("Unmarshal error: %v", err)
+		mw.ErrorLogger.Printf("Unmarshal error: %v", err)
 	}
-
-	fmt.Println(filter)
 
 	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, filter)
 	if err != nil {
-		log.Printf("Find error: %v", err)
+		mw.ErrorLogger.Printf("Find error: %v", err)
 		return nil, err
 	}
 
@@ -58,7 +54,7 @@ func SearchStudentSimple(req StudentSearchRequest) (*[]Student, error) {
 	var students []Student
 	err = cur.All(ctx, &students)
 	if err != nil {
-		log.Printf("cur all error: %v", err)
+		mw.ErrorLogger.Printf("cur all error: %v", err)
 		return nil, err
 	}
 
@@ -66,7 +62,6 @@ func SearchStudentSimple(req StudentSearchRequest) (*[]Student, error) {
 }
 
 func SearchStudentCustom(req StudentSearchRequest) (*[]Student, error) {
-
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 
 	var query bson.D
@@ -89,7 +84,7 @@ func SearchStudentCustom(req StudentSearchRequest) (*[]Student, error) {
 
 	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, query)
 	if err != nil {
-		log.Printf("Find error: %v", err)
+		mw.ErrorLogger.Printf("Find error: %v", err)
 		return nil, err
 	}
 
@@ -97,7 +92,7 @@ func SearchStudentCustom(req StudentSearchRequest) (*[]Student, error) {
 	var students []Student
 	err = cur.All(ctx, &students)
 	if err != nil {
-		log.Printf("cur all error: %v", err)
+		mw.ErrorLogger.Printf("cur all error: %v", err)
 		return nil, err
 	}
 
