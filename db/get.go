@@ -83,6 +83,10 @@ func SearchStudentCustom(req StudentSearchRequest) (*[]Student, error) {
 		}})
 	}
 
+	if req.Age != 0 {
+		query = append(query, bson.E{Key: "age", Value: req.Age})
+	}
+
 	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, query)
 	if err != nil {
 		log.Printf("Find error: %v", err)
