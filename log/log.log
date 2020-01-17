@@ -2,3 +2,15 @@ General:	2020/01/15 17:07:26 logger.go:38: /api/student/v1/public/student_custom
 General:	2020/01/15 17:07:49 logger.go:38: /api/student/v1/public/student_custom PATCH 200
 Error:	2020/01/15 17:08:13 public_handler.go:40: Error occured: code=400, message=Unmarshal type error: expected=int, got=string, field=age, offset=16, internal=json: cannot unmarshal string into Go struct field StudentSearchRequest.age of type int
 General:	2020/01/15 17:08:13 logger.go:38: /api/student/v1/public/student_custom PATCH 400
+Error:	2020/01/17 16:39:19 staff_handler.go:20: Error occured: context deadline exceeded
+General:	2020/01/17 16:39:19 logger.go:38: /api/student/v1/staff/student POST 400
+General:	2020/01/17 16:40:40 logger.go:38: /api/student/v1/staff/student POST 200
+General:	2020/01/17 16:41:11 logger.go:38: /api/student/v1/public/all_students GET 200
+General:	2020/01/17 16:41:42 logger.go:38: /api/student/v1/staff/student POST 200
+General:	2020/01/17 16:41:46 logger.go:38: /api/student/v1/public/all_students GET 200
+General:	2020/01/17 16:45:27 logger.go:38: /api/student/v1/staff/student POST 200
+General:	2020/01/17 16:45:35 logger.go:38: /api/student/v1/public/all_students GET 200
+General:	2020/01/17 16:51:43 logger.go:38: /api/student/v1/staff/student POST 200
+General:	2020/01/17 16:51:47 logger.go:38: /api/student/v1/public/all_students GET 200
+General:	2020/01/17 16:56:06 logger.go:38: /api/student/v1/staff/student POST 200
+General:	2020/01/17 16:56:09 logger.go:38: /api/student/v1/public/all_students GET 200

@@ -3,14 +3,15 @@ package db
 import (
 	"context"
 	"encoding/json"
-	mw "github.com/Splash07/nc_student/middleware"
 	"time"
 
+	mw "github.com/Splash07/nc_student/middleware"
+	"github.com/Splash07/nc_student/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func GetAllStudent() (*[]Student, error) {
+func GetAllStudent() (*[]model.Student, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	filter := bson.M{} //map[string]interface{}
 	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, filter)
@@ -20,7 +21,7 @@ func GetAllStudent() (*[]Student, error) {
 	}
 
 	ctx, _ = context.WithTimeout(context.Background(), 5*time.Second)
-	var students []Student
+	var students []model.Student
 	err = cur.All(ctx, &students)
 	if err != nil {
 		mw.ErrorLogger.Printf("cur all error: %v", err)
@@ -30,7 +31,7 @@ func GetAllStudent() (*[]Student, error) {
 	return &students, nil
 }
 
-func SearchStudentSimple(req StudentSearchRequest) (*[]Student, error) {
+func SearchStudentSimple(req model.StudentSearchRequest) (*[]model.Student, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 
 	var filter bson.M
@@ -51,7 +52,7 @@ func SearchStudentSimple(req StudentSearchRequest) (*[]Student, error) {
 	}
 
 	ctx, _ = context.WithTimeout(context.Background(), 5*time.Second)
-	var students []Student
+	var students []model.Student
 	err = cur.All(ctx, &students)
 	if err != nil {
 		mw.ErrorLogger.Printf("cur all error: %v", err)
@@ -61,7 +62,7 @@ func SearchStudentSimple(req StudentSearchRequest) (*[]Student, error) {
 	return &students, nil
 }
 
-func SearchStudentCustom(req StudentSearchRequest) (*[]Student, error) {
+func SearchStudentCustom(req model.StudentSearchRequest) (*[]model.Student, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 
 	var query bson.D
@@ -89,7 +90,7 @@ func SearchStudentCustom(req StudentSearchRequest) (*[]Student, error) {
 	}
 
 	ctx, _ = context.WithTimeout(context.Background(), 5*time.Second)
-	var students []Student
+	var students []model.Student
 	err = cur.All(ctx, &students)
 	if err != nil {
 		mw.ErrorLogger.Printf("cur all error: %v", err)

@@ -2,41 +2,39 @@ package db
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
+	"github.com/Splash07/nc_student/middleware"
+	"github.com/Splash07/nc_student/model"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func AddStudent(student *Student) (interface{}, error) {
+func AddStudent(student *model.Student) (interface{}, error) {
+	var count []model.Count
 	collection := Client.Database(DbName).Collection(ColName)
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	res, err := collection.InsertOne(ctx, student)
+	collectionCount := Client.Database(DbName).Collection("count")
+
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+
+	cur, err := collectionCount.Find(ctx, bson.M{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	cur.All(ctx, &count)
+	student.ID = count[0].Value + 1
+	filter := bson.M{"id": count[0].ID}
+	update := bson.M{"$set": bson.M{"val": student.ID}}
+	_, err = collectionCount.UpdateOne(ctx, filter, update)
+	if err != nil {
+		middleware.ErrorLogger.Printf("Update counter unsucessful %v", err)
+	}
+
+	res, err := collection.InsertOne(ctx, &student)
 	return res, err
 }
 
-func AddStudentAutoIncrement() {
-	collection := Client.Database(DbName).Collection(ColName)
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-
-	filter := bson.M{"counterName": "counterStudents"}
-
-	change := bson.M{"$inc": bson.M{"counterValue": 1}}
-
-	err := collection.FindOneAndUpdate(ctx, filter, change)
-
-	if err != nil {
-		fmt.Println("Error occured when updating the counter !")
-	}
-
-	fmt.Println("Counter updated!!")
-
-	//res, resErr := collection.InsertOne(ctx, student)
-
-	//return res, resErr
-}
-
-func UpdateStudent(student *StudentUpdateRequest) (interface{}, error) {
+func UpdateStudent(student *model.StudentUpdateRequest) (interface{}, error) {
 	collection := Client.Database(DbName).Collection(ColName)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	filter := bson.M{"email": student.Email}

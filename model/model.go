@@ -1,4 +1,6 @@
-package db
+package model
+
+import "github.com/dgrijalva/jwt-go"
 
 type StudentUpdateRequest struct {
 	ID        int    `json:"id,omitempty" bson:"id"`
@@ -25,6 +27,18 @@ type StudentSearchRequest struct {
 	ClassName string `json:"class_name,omitempty" bson:"class_name"`
 	Email     string `json:"email,omitempty" bson:"email"`
 	Age       int    `json:"age" bson:"age"`
+}
+
+type UserClaims struct {
+	UserID int    `json:"uid"`
+	Phone  string `json:"p"`
+	Email  string `json:"e"`
+	jwt.StandardClaims
+}
+
+type Count struct {
+	ID    int `bson:"id" json:"id"`
+	Value int `bson:"val" json:"val"`
 }
 
 type Error struct {

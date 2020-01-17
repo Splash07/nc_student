@@ -1,22 +1,25 @@
 package route
 
 import (
+	"github.com/Splash07/nc_student/config"
 	"github.com/Splash07/nc_student/handler"
+	"github.com/Splash07/nc_student/model"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func All(e *echo.Echo) {
-	Private(e)
 	Staff(e)
 	Public(e)
 }
 
-func Private(e *echo.Echo) {
-
-}
-
 func Staff(e *echo.Echo) {
 	g := e.Group("/api/student/v1/staff")
+	JWTConfig := middleware.JWTConfig{
+		SigningKey: []byte(config.Config.JWTSecret.JWTKey),
+		Claims:     &model.UserClaims{},
+	}
+	g.Use(middleware.JWTWithConfig(JWTConfig))
 	g.POST("/student", handler.AddStudent)
 	g.PUT("/student", handler.UpdateStudent)
 
