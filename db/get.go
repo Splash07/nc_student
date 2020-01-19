@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"time"
 
-	mw "github.com/Splash07/nc_student/middleware"
 	"github.com/Splash07/nc_student/model"
+	"github.com/Splash07/nc_student/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -16,7 +16,7 @@ func GetAllStudent() (*[]model.Student, error) {
 	filter := bson.M{} //map[string]interface{}
 	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, filter)
 	if err != nil {
-		mw.ErrorLogger.Printf("Find error: %v", err)
+		utils.ErrorLogger.Printf("Find error: %v", err)
 		return nil, err
 	}
 
@@ -24,7 +24,7 @@ func GetAllStudent() (*[]model.Student, error) {
 	var students []model.Student
 	err = cur.All(ctx, &students)
 	if err != nil {
-		mw.ErrorLogger.Printf("cur all error: %v", err)
+		utils.ErrorLogger.Printf("cur all error: %v", err)
 		return nil, err
 	}
 
@@ -37,17 +37,17 @@ func SearchStudentSimple(req model.StudentSearchRequest) (*[]model.Student, erro
 	var filter bson.M
 	bs, err := json.Marshal(req)
 	if err != nil {
-		mw.ErrorLogger.Printf("Marshal error: %v", err)
+		utils.ErrorLogger.Printf("Marshal error: %v", err)
 	}
 
 	err = json.Unmarshal(bs, &filter)
 	if err != nil {
-		mw.ErrorLogger.Printf("Unmarshal error: %v", err)
+		utils.ErrorLogger.Printf("Unmarshal error: %v", err)
 	}
 
 	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, filter)
 	if err != nil {
-		mw.ErrorLogger.Printf("Find error: %v", err)
+		utils.ErrorLogger.Printf("Find error: %v", err)
 		return nil, err
 	}
 
@@ -55,7 +55,7 @@ func SearchStudentSimple(req model.StudentSearchRequest) (*[]model.Student, erro
 	var students []model.Student
 	err = cur.All(ctx, &students)
 	if err != nil {
-		mw.ErrorLogger.Printf("cur all error: %v", err)
+		utils.ErrorLogger.Printf("cur all error: %v", err)
 		return nil, err
 	}
 
@@ -85,7 +85,7 @@ func SearchStudentCustom(req model.StudentSearchRequest) (*[]model.Student, erro
 
 	cur, err := Client.Database(DbName).Collection(ColName).Find(ctx, query)
 	if err != nil {
-		mw.ErrorLogger.Printf("Find error: %v", err)
+		utils.ErrorLogger.Printf("Find error: %v", err)
 		return nil, err
 	}
 
@@ -93,7 +93,7 @@ func SearchStudentCustom(req model.StudentSearchRequest) (*[]model.Student, erro
 	var students []model.Student
 	err = cur.All(ctx, &students)
 	if err != nil {
-		mw.ErrorLogger.Printf("cur all error: %v", err)
+		utils.ErrorLogger.Printf("cur all error: %v", err)
 		return nil, err
 	}
 

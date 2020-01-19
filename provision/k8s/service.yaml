@@ -7,6 +7,6 @@ spec:
     app: datnguyen-student
   ports:
     - protocol: TCP
-      port: 9091
-      targetPort: 9090
+      port: 1011
+      targetPort: 1010
   type: NodePort

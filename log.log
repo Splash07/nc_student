@@ -1,0 +1,4 @@
+General:	2020/01/18 17:10:22 logger.go:40: /api/student/v1/public/all_students GET 200
+General:	2020/01/19 11:47:39 logger.go:41: /api/student/v1/staff/delete GET 200
+General:	2020/01/19 11:47:53 logger.go:41: /api/student/v1/staff/student DELETE 200
+General:	2020/01/19 14:17:45 logger.go:19: /api/student/v1/public/all_students GET 200

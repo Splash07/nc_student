@@ -9,7 +9,7 @@ spec:
   - image: datnguyen293/nc_student
     name: cont
     ports:
-    - containerPort: 9090
+    - containerPort: 1010
       name: web
     resources:
       requests:

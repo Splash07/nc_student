@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/Splash07/nc_student/config"
-	mw "github.com/Splash07/nc_student/middleware"
+	"github.com/Splash07/nc_student/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -14,8 +14,10 @@ import (
 var Client *mongo.Client
 
 const (
-	DbName  = "GolangTest"
-	ColName = "Students"
+	DbName     = "GolangTest"
+	ColName    = "Students"
+	DbNameLog  = "Log"
+	ColNameLog = "Log"
 )
 
 func init() {
@@ -31,12 +33,12 @@ func connect() {
 
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
-		mw.ErrorLogger.Fatalf("connect error :%v", err)
+		utils.ErrorLogger.Fatalf("connect error :%v", err)
 	}
 
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
-		mw.ErrorLogger.Fatalf("ping error :%v", err)
+		utils.ErrorLogger.Fatalf("ping error :%v", err)
 	}
 	Client = client
 }

@@ -22,6 +22,7 @@ func Staff(e *echo.Echo) {
 	g.Use(middleware.JWTWithConfig(JWTConfig))
 	g.POST("/student", handler.AddStudent)
 	g.PUT("/student", handler.UpdateStudent)
+	g.DELETE("/student", handler.DeleteStudentId)
 
 }
 
